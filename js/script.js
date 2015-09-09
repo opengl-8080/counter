@@ -1,37 +1,45 @@
 $(function() {
+    var LIMIT = 60 * 60 * 24 * 1000;
+    // var LIMIT = 5 * 1000; // for debug
     var KEY = 'counter.data';
-    var data = getData();
-    var now = new Date().getTime();
 
-    if (86400000 < (now - data.time)) {
-        reset();
-    } else {
-        showCount(data.count);
-        save(data);
-    }
+    check();
+    showCount(getData());
+    setInterval(check, 1000);
 
     $('#countUp').on('click', countUp);
     $('#reset').on('click', reset);
 
+    function check() {
+        var data = getData();
+        var now = new Date().getTime();
+
+        if (LIMIT < (now - data.time)) {
+            reset();
+        }
+    }
+
     function countUp() {
         var data = getData();
         data.count++;
-        save(data);
-        showCount(data.count);
+        showCount(data);
     }
 
     function reset() {
+        console.debug('reset count');
         localStorage.removeItem(KEY);
         var data = getData();
-        showCount(data.count);
+        showCount(data);
     }
 
-    function showCount(count) {
+    function showCount(data) {
         var id = '#counter';
 
         $(id)
-            .text(count)
-            .css('font-size', calcFontSize(count));
+            .text(data.count)
+            .css('font-size', calcFontSize(data.count));
+
+        save(data);
     }
 
     function calcFontSize(count) {
