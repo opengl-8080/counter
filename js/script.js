@@ -1,11 +1,16 @@
 $(function() {
     var LIMIT = 60 * 60 * 27 * 1000;
-    // var LIMIT = 5 * 1000; // for debug
+    // var LIMIT = 60*60*1 * 1000 + 5000; // for debug
     var KEY = 'counter.data';
 
+    showTimeLeft();
     check();
     showCount(getData());
-    setInterval(check, 1000);
+
+    setInterval(function() {
+        showTimeLeft();
+        check();
+    }, 1000);
 
     $('#countUp').on('click', countUp);
     $('#reset').on('click', reset);
@@ -24,6 +29,7 @@ $(function() {
         data.count++;
         showCount(data);
         save(data);
+        showTimeLeft();
     }
 
     function reset() {
@@ -58,5 +64,36 @@ $(function() {
     function getData() {
         var data = localStorage.getItem(KEY);
         return data ? $.parseJSON(data) : {count: 0, time: 0};
+    }
+
+    function showTimeLeft() {
+        var last = getData().time;
+        var limit = last + LIMIT;
+        var now = new Date().getTime();
+        var left = limit - now;
+
+        var duration = moment.duration(left);
+        var d = duration.days();
+        var h = leftZeroPadding(duration.hours() + (d * 24), 2);
+        var m = leftZeroPadding(duration.minutes(), 2);
+        var s = leftZeroPadding(duration.seconds(), 2);
+
+        $('#timeLeft').text(h + ':' + m + ':' + s);
+
+        if (duration.as('hours') < 1) {
+            $('#timeLeft').addClass('warning');
+        } else {
+            $('#timeLeft').removeClass('warning');
+        }
+    }
+
+    function leftZeroPadding(n, size) {
+        var s = '' + n;
+
+        for (var i=0; i<(size - s.length); i++) {
+            s = '0' + s;
+        }
+
+        return s;
     }
 });

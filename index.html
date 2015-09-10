@@ -6,8 +6,13 @@
     <title>Counter</title>
     <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css" />
     <script src="js/jquery.js"></script>
+    <script src="js/moment.js"></script>
     <script src="js/script.js"></script>
     <style>
+    .warning {
+      color: red;
+    }
+
     .btn-circle {
       width: 100px;
       height: 100px;
@@ -25,10 +30,17 @@
     .button-area {
       margin-top: 3em;
     }
+
+    #timeLeft {
+      margin-bottom: 1em;
+      font-size: x-large;
+    }
     </style>
   </head>
   <body>
     <div class="center">
+      <div id="timeLeft"></div>
+
       <div id="counter"></div>
 
       <div class="button-area">
