@@ -23,6 +23,7 @@ $(function() {
         var data = getData();
         data.count++;
         showCount(data);
+        save(data);
     }
 
     function reset() {
@@ -30,6 +31,7 @@ $(function() {
         localStorage.removeItem(KEY);
         var data = getData();
         showCount(data);
+        save(data);
     }
 
     function showCount(data) {
@@ -38,8 +40,6 @@ $(function() {
         $(id)
             .text(data.count)
             .css('font-size', calcFontSize(data.count));
-
-        save(data);
     }
 
     function calcFontSize(count) {
