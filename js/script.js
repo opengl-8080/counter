@@ -1,5 +1,5 @@
 $(function() {
-    var LIMIT = 60 * 60 * 24 * 1000;
+    var LIMIT = 60 * 60 * 27 * 1000;
     // var LIMIT = 5 * 1000; // for debug
     var KEY = 'counter.data';
 
